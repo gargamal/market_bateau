@@ -14,7 +14,7 @@ class SelectBateau extends StatelessWidget {
     return MaterialApp(
         title: 'Une application bateau',
         debugShowCheckedModeBanner: false,
-        home: ShipListScreen()
+        home: ShipListInfiniteScrollScreen()
     );
   }
 }
