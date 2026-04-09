@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:select_bateau/core/utils/currency_formatter.dart';
 import 'package:select_bateau/features/ship/models/ship.dart';
 import 'package:select_bateau/core/utils/number_formatter.dart';
-import 'package:select_bateau/features/ship/presentation/widgets/detail_one_ship.dart';
+import 'package:select_bateau/features/ship/presentation/widgets/detail_ship.dart';
 
-class OneShipWidget extends StatelessWidget {
+class ShipWidget extends StatelessWidget {
   final Color backColor;
   final Color circleBackColor;
   final Color circleTextColor;
   final Ship ship;
   final String powerFormatted;
-  final DetailOneShip detailOneShip = DetailOneShip();
+  final DetailShip detailOneShip = DetailShip();
 
-  OneShipWidget({
+  ShipWidget({
     super.key,
     required this.ship,
     this.backColor = const Color(0xFFC4D3E8),

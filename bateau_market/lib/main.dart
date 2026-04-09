@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:select_bateau/features/ship/presentation/widgets/ship_list_widget.dart';
+import 'package:select_bateau/features/ship/presentation/widgets/list_ship_widget.dart';
 
 void main() {
   runApp(const ProviderScope(child: SelectBateau()));
@@ -16,7 +16,7 @@ class SelectBateau extends StatelessWidget {
     return MaterialApp(
         title: 'Une application bateau',
         debugShowCheckedModeBanner: false,
-        home: ShipListInfiniteScrollWidget()
+        home: ListShipInfiniteScrollWidget()
     );
   }
 }
