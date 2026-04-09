@@ -8,15 +8,19 @@ public class Ship {
     private int nbHourOfAutonomy;
     private int nbPeopleMax;
     private String marketPlace;
+    private double lat;
+    private double lng;
     private BigDecimal price;
 
-    public Ship(String name, int power, int nbHourOfAutonomy, int nbPeopleMax, String marketPlace, BigDecimal price) {
+    public Ship(String name, int power, int nbHourOfAutonomy, int nbPeopleMax, String marketPlace, double lat, double lng, BigDecimal price) {
         this.name = name;
         this.power = power;
         this.nbHourOfAutonomy = nbHourOfAutonomy;
         this.nbPeopleMax = nbPeopleMax;
         this.marketPlace = marketPlace;
         this.price = price;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public String getName() {
@@ -65,5 +69,21 @@ public class Ship {
 
     public void setMarketPlace(String marketPlace) {
         this.marketPlace = marketPlace;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public double getLng() {
+        return lng;
+    }
+
+    public void setLng(double lng) {
+        this.lng = lng;
     }
 }

@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:select_bateau/core/utils/constants.dart';
 import 'package:select_bateau/features/ship/presentation/providers/ship_pagination_notifier.dart';
+import 'package:select_bateau/features/ship/presentation/widgets/one_ship_widget.dart';
 
-class ShipListInfiniteScrollScreen extends ConsumerStatefulWidget {
-  const ShipListInfiniteScrollScreen({super.key});
+class ShipListInfiniteScrollWidget extends ConsumerStatefulWidget {
+  const ShipListInfiniteScrollWidget({super.key});
 
   @override
-  ConsumerState<ShipListInfiniteScrollScreen> createState() => _ShipListInfiniteScrollScreen();
+  ConsumerState<ShipListInfiniteScrollWidget> createState() => _ShipListInfiniteScrollScreen();
 }
 
-class _ShipListInfiniteScrollScreen extends ConsumerState<ShipListInfiniteScrollScreen> {
+class _ShipListInfiniteScrollScreen extends ConsumerState<ShipListInfiniteScrollWidget> {
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -37,10 +38,7 @@ class _ShipListInfiniteScrollScreen extends ConsumerState<ShipListInfiniteScroll
           itemBuilder: (context, index) {
             if (index < state.ships.length) {
               final ship = state.ships[index];
-              return ListTile(
-                  leading: CircleAvatar(child: Text(ship.name.substring(0, 1).toUpperCase() + ship.name.substring(1, 2).toLowerCase())),
-                  title: Text(ship.name),
-                  subtitle: Text(ship.price.toString()));
+              return OneShipWidget(ship: ship);
             } else {
               return const Center(child: CircularProgressIndicator());
             }
