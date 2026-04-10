@@ -1,5 +1,6 @@
 package com.batean.back_bateau.controller;
 
+import com.batean.back_bateau.model.City;
 import com.batean.back_bateau.services.CityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ public class CityController {
     private CityService cityService;
 
     @GetMapping("/getAll")
-    public List<String> getAll() {
+    public List<City> getAll() {
         return cityService.getAll();
     }
 }
