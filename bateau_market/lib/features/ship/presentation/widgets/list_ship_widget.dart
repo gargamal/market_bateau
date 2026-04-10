@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:select_bateau/core/theme/theme_provider.dart';
 import 'package:select_bateau/core/utils/constants.dart';
 import 'package:select_bateau/features/ship/presentation/providers/ship_pagination_provider.dart';
 import 'package:select_bateau/features/ship/presentation/widgets/filter_ship_widget.dart';
@@ -57,13 +58,18 @@ class _ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScroll
   @override
   Widget build(BuildContext context) {
     final asyncState = ref.watch(shipPaginationProvider);
+    final themeMode = ref.watch(themeProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Mes beaux bateaux"),
+        title: const Text("My beautiful ships"),
         actions: [
           IconButton(
-            icon: Icon(Icons.filter_list),
+            icon: Icon(themeMode == ThemeMode.dark ? Icons.light_mode : Icons.dark_mode),
+            onPressed: () => ref.read(themeProvider.notifier).toggleTheme(),
+          ),
+          IconButton(
+            icon: const Icon(Icons.filter_list),
             onPressed: () => _showFilterDialog.show(context, ref),
           ),
         ],

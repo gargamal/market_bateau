@@ -3,7 +3,7 @@ import 'package:select_bateau/core/data/formatter/currency_formatter.dart';
 import 'package:select_bateau/features/ship/models/ship.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 
-class DetailShip {
+class DetailShipWidget {
   void show(BuildContext context, Ship ship, String powerFormatted) {
     final controller = MapController(
       initPosition: GeoPoint(
@@ -15,16 +15,17 @@ class DetailShip {
     showDialog(
       context: context,
       builder: (BuildContext context) {
+        final colorScheme = Theme.of(context).colorScheme;
+
         return AlertDialog(
           elevation: 10,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          backgroundColor: Colors.white,
-          shadowColor: Colors.black,
+          shadowColor: colorScheme.shadow,
           title: Center(
             child: Text(
-              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent, fontSize: 22),
+              style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.primary, fontSize: 22),
               ship.name,
             ),
           ),
@@ -56,8 +57,8 @@ class DetailShip {
                           staticPoints: [
                             StaticPositionGeoPoint(
                               ship.name, // ID unique
-                              const MarkerIcon(
-                                icon: Icon(Icons.location_on, color: Colors.red, size: 48),
+                              MarkerIcon(
+                                icon: Icon(Icons.location_on, color: colorScheme.error, size: 48),
                               ),
                               [GeoPoint(latitude: ship.lat, longitude: ship.lng)],
                             ),
@@ -75,13 +76,13 @@ class DetailShip {
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.close,
-                      color: Colors.redAccent,
+                      color: colorScheme.error,
                       size: 24,
                     ),
-                    const SizedBox(height: 4),
-                    const Text("close", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.red, fontSize: 18))
+                    const SizedBox(width: 4),
+                    Text("close", style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.error, fontSize: 18))
                   ]
               ),
               onPressed: () => Navigator.of(context).pop()

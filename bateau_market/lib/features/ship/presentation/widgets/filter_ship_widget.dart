@@ -44,11 +44,13 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
     _localPower ??= (shipFilterState.power ?? 0).toDouble();
     _localMarketPlace ??= shipFilterState.marketPlace;
 
+    final colorScheme = Theme.of(context).colorScheme;
+
     return AlertDialog(
-      title: const Center(
+      title: Center(
         child: Text(
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent, fontSize: 22),
-          "Find your ship"
+          "Find your ship",
+          style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.primary, fontSize: 22),
         ),
       ),
       content: Column(
@@ -59,6 +61,8 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
           Slider(
             value: _localPower!,
             max: 10000,
+            activeColor: colorScheme.primary,
+            inactiveColor: colorScheme.primary.withValues(alpha: 0.3),
             onChanged: (val) {
               setState(() => _localPower = val);
               debouncing(() {
@@ -94,11 +98,21 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
             ref.read(shipFilterProvider.notifier).state = ShipFilters();
             Navigator.pop(context);
           },
-          child: const Text("Reinitialize", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blue, fontSize: 14)),
+          child: Text(
+            "Reinitialize",
+            style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.secondary, fontSize: 14),
+          ),
         ),
         ElevatedButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text("Apply", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.redAccent, fontSize: 18)),
+          style: ElevatedButton.styleFrom(
+            backgroundColor: colorScheme.primaryContainer,
+            foregroundColor: colorScheme.onPrimaryContainer,
+          ),
+          child: const Text(
+            "Apply",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+          ),
         ),
       ],
     );
