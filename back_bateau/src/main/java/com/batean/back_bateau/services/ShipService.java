@@ -6,6 +6,8 @@ import com.batean.back_bateau.repositories.ShipRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -22,17 +24,21 @@ public class ShipService {
     public List<Ship> get(int page, int limit, ShipFilters shipFilters) {
         List<Ship> filteredShips = buildWithFilter(shipFilters);
 
-        int pageIndex = page - 1;
-        pageIndex = Math.max(pageIndex, 0);
+        int pageIndex = Math.max(page - 1, 0);
 
         int startIndex = pageIndex * limit;
         int length = filteredShips.size();
 
-        startIndex = startIndex >= length ? length - limit : startIndex;
-        int endIndex = startIndex + limit;
-        endIndex = startIndex >= length ? length - 1 : endIndex;
+        startIndex = startIndex >= length ? Math.max(length - limit, 0) : startIndex;
+        int endIndex = Math.min(startIndex + limit, length - 1);
 
-        return filteredShips.subList(startIndex, endIndex);
+        if (length == 0 || endIndex == 0 || startIndex == endIndex) {
+            System.out.printf("shipRepository.get-return-empty -- %s\n", LocalDateTime.now());
+            return new ArrayList<>();
+        } else {
+            System.out.printf("shipRepository.get-return-(%d-%d) -- %s\n", startIndex, endIndex, LocalDateTime.now());
+            return filteredShips.subList(startIndex, endIndex);
+        }
     }
 
     private List<Ship> buildWithFilter(ShipFilters shipFilters) {

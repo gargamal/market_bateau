@@ -3,10 +3,14 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:select_bateau/core/utils/constants.dart';
 import 'package:select_bateau/features/ship/models/ship.dart';
+import 'package:select_bateau/features/ship/models/ship_filters.dart';
 import 'package:select_bateau/features/ship/models/ship_state.dart';
-import 'package:select_bateau/features/ship/presentation/providers/ship_fliter.dart';
+import 'package:select_bateau/features/ship/presentation/providers/dio_provider.dart';
+import 'package:select_bateau/features/ship/presentation/providers/ship_fliter_provider.dart';
 
 class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
+  CancelToken? cancelToken;
+
   @override
   FutureOr<ShipsState> build() async {
     final filters = ref.watch(shipFilterProvider);
@@ -16,6 +20,9 @@ class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
 
   Future<List<Ship>> fetchShips({required int page, required ShipFilters filters}) async {
     try {
+      cancelToken?.cancel("New filter apply");
+      cancelToken = CancelToken();
+
       final queryParams = {
         'page': page,
         'limit': limitShipsPagination,
@@ -26,7 +33,7 @@ class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
 
       final dio = ref.read(dioProvider);
       final response = await dio.get(
-        '$baseUrl/get',
+        '$baseUrl/ship/get',
         queryParameters: queryParams,
       );
 
@@ -37,6 +44,7 @@ class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
         throw Exception('Server error: ${response.statusCode}');
       }
     } on DioException catch (e) {
+      if (CancelToken.isCancel(e)) return [];
       throw Exception('Network error : ${e.message}');
     }
   }
@@ -61,14 +69,3 @@ class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
     }
   }
 }
-
-final shipPaginationProvider = AsyncNotifierProvider<ShipPaginationNotifier, ShipsState>(() {
-  return ShipPaginationNotifier();
-});
-
-final dioProvider = Provider<Dio>((ref) {
-  return Dio(BaseOptions(
-    baseUrl: baseUrl,
-    connectTimeout: const Duration(seconds: 5),
-  ));
-});

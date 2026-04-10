@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:select_bateau/core/utils/currency_formatter.dart';
 import 'package:select_bateau/features/ship/models/ship.dart';
 import 'package:select_bateau/core/utils/number_formatter.dart';
-import 'package:select_bateau/features/ship/presentation/widgets/detail_ship.dart';
+import 'package:select_bateau/features/ship/presentation/widgets/detail_ship_widget.dart';
 
 class ShipWidget extends StatelessWidget {
   final Color backColor;

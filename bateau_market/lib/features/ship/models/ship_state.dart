@@ -7,7 +7,6 @@ class ShipsState {
 
   ShipsState({required this.ships, this.isLoadingMore = false, this.currentPage = 1});
 
-  // Méthode utilitaire pour copier l'état facilement
   ShipsState copyWith({List<Ship>? ships, bool? isLoadingMore, int? currentPage}) {
     return ShipsState(
         ships: ships ?? this.ships,

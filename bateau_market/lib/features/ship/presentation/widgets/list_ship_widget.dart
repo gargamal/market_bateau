@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:select_bateau/core/utils/constants.dart';
-import 'package:select_bateau/features/ship/presentation/providers/ship_fliter.dart';
-import 'package:select_bateau/features/ship/presentation/providers/ship_pagination_notifier.dart';
-import 'package:select_bateau/features/ship/presentation/widgets/filter_ship.dart';
+import 'package:select_bateau/features/ship/presentation/providers/ship_pagination_provider.dart';
+import 'package:select_bateau/features/ship/presentation/widgets/filter_ship_widget.dart';
 import 'package:select_bateau/features/ship/presentation/widgets/ship_widget.dart';
 
 class ListShipInfiniteScrollWidget extends ConsumerStatefulWidget {
@@ -65,7 +64,7 @@ class ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScrollW
         actions: [
           IconButton(
             icon: Icon(Icons.filter_list),
-            onPressed: () => showFilterDialog.show(context, ref.read(shipFilterProvider)),
+            onPressed: () => showFilterDialog.show(context, ref),
           ),
         ],
       ),

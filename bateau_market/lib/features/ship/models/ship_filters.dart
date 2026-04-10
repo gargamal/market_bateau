@@ -1,5 +1,3 @@
-import 'package:flutter_riverpod/legacy.dart';
-
 class ShipFilters {
   final int? power;
   final String? marketPlace;
@@ -23,5 +21,3 @@ class ShipFilters {
     };
   }
 }
-
-final shipFilterProvider = StateProvider<ShipFilters>((ref) => ShipFilters());
