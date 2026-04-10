@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:select_bateau/core/utils/currency_formatter.dart';
+import 'package:select_bateau/core/data/formatter/currency_formatter.dart';
 import 'package:select_bateau/features/ship/models/ship.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 

@@ -9,16 +9,16 @@ class ListShipInfiniteScrollWidget extends ConsumerStatefulWidget {
   const ListShipInfiniteScrollWidget({super.key});
 
   @override
-  ConsumerState<ListShipInfiniteScrollWidget> createState() => ListShipInfiniteScrollScreen();
+  ConsumerState<ListShipInfiniteScrollWidget> createState() => _ListShipInfiniteScrollScreen();
 }
 
-class ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScrollWidget> {
-  bool onFirstPageIsVisible = false;
-  final ScrollController scrollController = ScrollController();
-  final FilterShip showFilterDialog = FilterShip();
+class _ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScrollWidget> {
+  bool _onFirstPageIsVisible = false;
+  final ScrollController _scrollController = ScrollController();
+  final FilterShipWidget _showFilterDialog = FilterShipWidget();
 
-  void onFirstPage() {
-    scrollController.animateTo(
+  void _onFirstPage() {
+    _scrollController.animateTo(
       0,
       duration: Duration(milliseconds: 500),
       curve: Curves.fastOutSlowIn,
@@ -28,29 +28,29 @@ class ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScrollW
   @override
   void initState() {
     super.initState();
-    scrollController.addListener(onScroll);
+    _scrollController.addListener(_onScroll);
   }
 
-  void onScroll() {
+  void _onScroll() {
     final notifier = ref.read(shipPaginationProvider.notifier);
 
-    final threshold = scrollController.position.maxScrollExtent * limitShipsRefresh;
-    final currentScroll = scrollController.position.pixels;
+    final threshold = _scrollController.position.maxScrollExtent * limitShipsRefresh;
+    final currentScroll = _scrollController.position.pixels;
 
     if (currentScroll >= threshold) {
       notifier.loadNextPage();
     }
 
-    final showButton = scrollController.offset > 200;
-    if (showButton != onFirstPageIsVisible) {
-      setState(() => onFirstPageIsVisible = showButton);
+    final showButton = _scrollController.offset > 200;
+    if (showButton != _onFirstPageIsVisible) {
+      setState(() => _onFirstPageIsVisible = showButton);
     }
   }
 
   @override
   void dispose() {
-    scrollController.removeListener(onScroll);
-    scrollController.dispose();
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -64,13 +64,13 @@ class ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScrollW
         actions: [
           IconButton(
             icon: Icon(Icons.filter_list),
-            onPressed: () => showFilterDialog.show(context, ref),
+            onPressed: () => _showFilterDialog.show(context, ref),
           ),
         ],
       ),
       body: asyncState.when(
         data: (state) => ListView.builder(
-          controller: scrollController,
+          controller: _scrollController,
           itemCount: state.ships.length + (state.isLoadingMore ? 1 : 0),
           itemBuilder: (context, index) {
             if (index < state.ships.length) {
@@ -84,8 +84,8 @@ class ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScrollW
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (err, stack) => Center(child: Text('Erreur: $err')),
       ),
-      floatingActionButton: !onFirstPageIsVisible ? null : FloatingActionButton(
-        onPressed: onFirstPage,
+      floatingActionButton: !_onFirstPageIsVisible ? null : FloatingActionButton(
+        onPressed: _onFirstPage,
         child: Icon(Icons.arrow_upward),
       ),
     );

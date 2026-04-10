@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_ce_flutter/hive_ce_flutter.dart';
 import 'package:select_bateau/core/utils/constants.dart';
 import 'package:select_bateau/features/ship/models/ship.dart';
 import 'package:select_bateau/features/ship/models/ship_filters.dart';
@@ -9,19 +10,64 @@ import 'package:select_bateau/features/ship/presentation/providers/dio_provider.
 import 'package:select_bateau/features/ship/presentation/providers/ship_fliter_provider.dart';
 
 class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
-  CancelToken? cancelToken;
+  static const boxName = 'ships_box';
+  CancelToken? _cancelToken;
 
   @override
   FutureOr<ShipsState> build() async {
     final filters = ref.watch(shipFilterProvider);
-    final initialShips = await fetchShips(page: 1, filters: filters);
+    
+    List<Ship> initialShips = [];
+    if (_isFilterEmpty(filters)) {
+      initialShips = _getLocalShips();
+    } else {
+      initialShips = _getLocalShips();
+      initialShips.retainWhere((ship) {
+        if (filters.power != null && ship.power < filters.power!) return false;
+        if (filters.marketPlace != null && ship.marketPlace != filters.marketPlace) return false;
+        if (filters.nbPeopleMax != null && ship.nbPeopleMax < filters.nbPeopleMax!) return false;
+        return true;
+      });
+    }
+
+    _refreshShipsInBackground(filters);
+
     return ShipsState(ships: initialShips);
   }
 
-  Future<List<Ship>> fetchShips({required int page, required ShipFilters filters}) async {
+  bool _isFilterEmpty(ShipFilters filters) {
+    return (filters.power ?? 0) == 0 && 
+           (filters.marketPlace?.isEmpty ?? true) && 
+           (filters.nbPeopleMax ?? 0) == 0;
+  }
+
+  List<Ship> _getLocalShips() {
+    final box = Hive.box<Ship>(boxName);
+    return box.values.toList();
+  }
+
+  Future<void> _refreshShipsInBackground(ShipFilters filters) async {
     try {
-      cancelToken?.cancel("New filter apply");
-      cancelToken = CancelToken();
+      final remoteShips = await _fetchShips(page: 1, filters: filters);
+
+      if (_isFilterEmpty(filters)) {
+        final box = Hive.box<Ship>(boxName);
+        await box.clear();
+        await box.addAll(remoteShips);
+      }
+
+      state = AsyncData(ShipsState(ships: remoteShips, currentPage: 1));
+    } catch (e, stack) {
+      if (state.value?.ships.isEmpty ?? true) {
+        state = AsyncError(e, stack);
+      }
+    }
+  }
+
+  Future<List<Ship>> _fetchShips({required int page, required ShipFilters filters}) async {
+    try {
+      _cancelToken?.cancel("New request");
+      _cancelToken = CancelToken();
 
       final queryParams = {
         'page': page,
@@ -45,7 +91,7 @@ class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
       }
     } on DioException catch (e) {
       if (CancelToken.isCancel(e)) return [];
-      throw Exception('Network error : ${e.message}');
+      rethrow;
     }
   }
 
@@ -58,14 +104,16 @@ class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
     try {
       final nextPage = currentState.currentPage + 1;
       final filters = ref.read(shipFilterProvider);
-      final newShips = await fetchShips(page: nextPage, filters: filters);
+      final newShips = await _fetchShips(page: nextPage, filters: filters);
 
       state = AsyncData(currentState.copyWith(
           ships: [...currentState.ships, ...newShips],
           currentPage: nextPage,
           isLoadingMore: false));
     } catch (e, st) {
-      state = AsyncError(e, st);
+      if (state.value != null) {
+        state = AsyncData(state.value!.copyWith(isLoadingMore: false));
+      }
     }
   }
 }

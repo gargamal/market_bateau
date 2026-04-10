@@ -2,36 +2,37 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:select_bateau/core/utils/constants.dart';
+import 'package:select_bateau/features/ship/models/city.dart';
 import 'package:select_bateau/features/ship/models/ship_filters.dart';
 import 'package:select_bateau/features/ship/presentation/providers/city_provider.dart';
 import 'package:select_bateau/features/ship/presentation/providers/ship_fliter_provider.dart';
 
-class FilterShip {
+class FilterShipWidget {
   void show(BuildContext context, WidgetRef ref) {
     ref.invalidate(cityProvider);
 
     showDialog(
       context: context,
-      builder: (context) => const FilterDialogContent(),
+      builder: (context) => const _FilterDialogContent(),
     );
   }
 }
 
-class FilterDialogContent extends ConsumerStatefulWidget {
-  const FilterDialogContent({super.key});
+class _FilterDialogContent extends ConsumerStatefulWidget {
+  const _FilterDialogContent();
 
   @override
-  ConsumerState<FilterDialogContent> createState() => FilterDialogContentState();
+  ConsumerState<_FilterDialogContent> createState() => FilterDialogContentState();
 }
 
-class FilterDialogContentState extends ConsumerState<FilterDialogContent> {
-  Timer? debounce;
-  double? localPower;
-  String? localMarketPlace;
+class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
+  Timer? _debounce;
+  double? _localPower;
+  String? _localMarketPlace;
 
   @override
   void dispose() {
-    debounce?.cancel();
+    _debounce?.cancel();
     super.dispose();
   }
 
@@ -40,8 +41,8 @@ class FilterDialogContentState extends ConsumerState<FilterDialogContent> {
     final cityState = ref.watch(cityProvider);
     final shipFilterState = ref.watch(shipFilterProvider);
 
-    localPower ??= (shipFilterState.power ?? 0).toDouble();
-    localMarketPlace ??= shipFilterState.marketPlace;
+    _localPower ??= (shipFilterState.power ?? 0).toDouble();
+    _localMarketPlace ??= shipFilterState.marketPlace;
 
     return AlertDialog(
       title: const Center(
@@ -54,12 +55,12 @@ class FilterDialogContentState extends ConsumerState<FilterDialogContent> {
         mainAxisSize: MainAxisSize.min,
         children: [
           // Filtrer par puissance
-          Text("Max Power : ${localPower!.toInt()}"),
+          Text("Max Power : ${_localPower!.toInt()}"),
           Slider(
-            value: localPower!,
+            value: _localPower!,
             max: 10000,
             onChanged: (val) {
-              setState(() => localPower = val);
+              setState(() => _localPower = val);
               debouncing(() {
                 ref.read(shipFilterProvider.notifier).update((state) => state.copyWith(power: val.toInt())
                 );
@@ -70,13 +71,13 @@ class FilterDialogContentState extends ConsumerState<FilterDialogContent> {
           cityState.when(
               data: (state) =>
                   DropdownButton<String>(
-                      value: localMarketPlace,
+                      value: _localMarketPlace,
                       hint: const Text("Choose the city"),
-                      items: state.cities.map((String value) {
-                        return DropdownMenuItem(value: value, child: Text(value));
+                      items: state.cities.map((City value) {
+                        return DropdownMenuItem(value: value.name, child: Text(value.name));
                       }).toList(),
                       onChanged: (val) {
-                        setState(() => localMarketPlace = val);
+                        setState(() => _localMarketPlace = val);
                         debouncing(() {
                           ref.read(shipFilterProvider.notifier).update((state) => state.copyWith(marketPlace: val)
                           );
@@ -104,7 +105,7 @@ class FilterDialogContentState extends ConsumerState<FilterDialogContent> {
   }
 
   void debouncing(void Function() callback) {
-    if (debounce?.isActive ?? false) debounce!.cancel();
-    debounce = Timer(const Duration(milliseconds: lapTimeCallBackend), callback);
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+    _debounce = Timer(const Duration(milliseconds: lapTimeCallBackend), callback);
   }
 }

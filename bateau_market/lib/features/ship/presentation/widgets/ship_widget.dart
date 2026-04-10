@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:select_bateau/core/utils/currency_formatter.dart';
+import 'package:select_bateau/core/data/formatter/currency_formatter.dart';
 import 'package:select_bateau/features/ship/models/ship.dart';
-import 'package:select_bateau/core/utils/number_formatter.dart';
+import 'package:select_bateau/core/data/formatter/number_formatter.dart';
 import 'package:select_bateau/features/ship/presentation/widgets/detail_ship_widget.dart';
 
 class ShipWidget extends StatelessWidget {
-  final Color backColor;
-  final Color circleBackColor;
-  final Color circleTextColor;
-  final Ship ship;
-  final String powerFormatted;
-  final DetailShip detailOneShip = DetailShip();
+  final Color _backColor;
+  final Color _circleBackColor;
+  final Color _circleTextColor;
+  final Ship _ship;
+  final String _powerFormatted;
+  final DetailShip _detailShip = DetailShip();
 
   ShipWidget({
     super.key,
-    required this.ship,
-    this.backColor = const Color(0xFFC4D3E8),
-    this.circleBackColor = const Color(0xFF083360),
-    this.circleTextColor = const Color(0xFFB8C6CC)
-  }) : powerFormatted = NumberFormatter().format(ship.power);
+    required Ship ship,
+    Color backColor = const Color(0xFFC4D3E8),
+    Color circleBackColor = const Color(0xFF083360),
+    Color circleTextColor = const Color(0xFFB8C6CC)
+  }) : _ship = ship, _circleTextColor = circleTextColor, _circleBackColor = circleBackColor, _backColor = backColor, _powerFormatted = NumberFormatter().format(ship.power);
 
   @override
   Widget build(BuildContext context) {
     return Container(
         padding: const EdgeInsets.all(8),
         child: GestureDetector(
-            onTap: () => detailOneShip.show(context, ship, powerFormatted),
+            onTap: () => _detailShip.show(context, _ship, _powerFormatted),
             child: Container(
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(12),
@@ -37,26 +37,26 @@ class ShipWidget extends StatelessWidget {
                         offset: Offset(0, 3), // changes position of shadow
                       ),
                     ],
-                    color: backColor),
+                    color: _backColor),
                 child: ListTile(
                   leading: CircleAvatar(
-                      backgroundColor: circleBackColor,
-                      foregroundColor: circleTextColor,
-                      child: Text(ship.name.substring(0, 1).toUpperCase() + ship.name.substring(1, 2).toLowerCase())
+                      backgroundColor: _circleBackColor,
+                      foregroundColor: _circleTextColor,
+                      child: Text(_ship.name.substring(0, 1).toUpperCase() + _ship.name.substring(1, 2).toLowerCase())
                   ),
                   title: Container(
                       padding: EdgeInsets.all(8),
                       child: Center(child: Text(
-                          style: TextStyle(fontWeight: FontWeight.bold, color: circleBackColor, fontSize: 18),
-                          ship.name))
+                          style: TextStyle(fontWeight: FontWeight.bold, color: _circleBackColor, fontSize: 18),
+                          _ship.name))
                   ),
-                  subtitle: Text("${ship.price.toCurrency()}\n$powerFormatted CV\n${ship.nbHourOfAutonomy} hours of autonomy\n${ship.nbPeopleMax} people max"),
+                  subtitle: Text("${_ship.price.toCurrency()}\n$_powerFormatted CV\n${_ship.nbHourOfAutonomy} hours of autonomy\n${_ship.nbPeopleMax} people max"),
                   trailing: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        ship.marketPlace,
+                        _ship.marketPlace,
                         style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       const SizedBox(height: 4), // Petit espace entre le texte et l'icône
