@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:select_bateau/core/theme/theme_provider.dart';
+import 'package:select_bateau/core/theme/provider/theme_provider.dart';
 import 'package:select_bateau/core/utils/constants.dart';
 import 'package:select_bateau/features/ship/presentation/providers/ship_pagination_provider.dart';
 import 'package:select_bateau/features/ship/presentation/widgets/filter_ship_widget.dart';

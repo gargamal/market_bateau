@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:select_bateau/core/utils/constants.dart';
 import 'package:select_bateau/features/ship/models/city.dart';
-import 'package:select_bateau/features/ship/models/ship_filters.dart';
 import 'package:select_bateau/features/ship/presentation/providers/city_provider.dart';
 import 'package:select_bateau/features/ship/presentation/providers/ship_fliter_provider.dart';
 
@@ -95,7 +94,7 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
       actions: [
         TextButton(
           onPressed: () {
-            ref.read(shipFilterProvider.notifier).state = ShipFilters();
+            ref.read(shipFilterProvider.notifier).state = ShipFiltersState();
             Navigator.pop(context);
           },
           child: Text(

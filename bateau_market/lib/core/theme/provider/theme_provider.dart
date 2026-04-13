@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:hive_ce_flutter/hive_ce_flutter.dart';
-
-final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
-  return ThemeNotifier();
-});
+import 'package:select_bateau/core/utils/constants.dart';
 
 class ThemeNotifier extends StateNotifier<ThemeMode> {
-  static const boxName = 'settings_box';
   static const _key = 'isDarkMode';
 
   ThemeNotifier() : super(ThemeMode.system) {
@@ -15,7 +11,7 @@ class ThemeNotifier extends StateNotifier<ThemeMode> {
   }
 
   void _loadTheme() {
-    final box = Hive.box(boxName);
+    final box = Hive.box(settingsBoxName);
     final isDark = box.get(_key);
     if (isDark != null) {
       state = isDark ? ThemeMode.dark : ThemeMode.light;
@@ -23,7 +19,7 @@ class ThemeNotifier extends StateNotifier<ThemeMode> {
   }
 
   void toggleTheme() {
-    final box = Hive.box(boxName);
+    final box = Hive.box(settingsBoxName);
     if (state == ThemeMode.dark) {
       state = ThemeMode.light;
       box.put(_key, false);
@@ -33,3 +29,7 @@ class ThemeNotifier extends StateNotifier<ThemeMode> {
     }
   }
 }
+
+final themeProvider = StateNotifierProvider<ThemeNotifier, ThemeMode>((ref) {
+  return ThemeNotifier();
+});
