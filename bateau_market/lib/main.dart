@@ -9,6 +9,8 @@ import 'package:select_bateau/features/ship/models/ship.dart';
 import 'package:select_bateau/features/ship/presentation/widgets/list_ship_widget.dart';
 import 'package:select_bateau/hive_registrar.g.dart';
 import 'package:select_bateau/core/theme/app_theme.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:select_bateau/l10n/app_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,6 +38,16 @@ class SelectBateau extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en'),
+        Locale('fr'),
+      ],
       home: const ListShipWidget(),
     );
   }

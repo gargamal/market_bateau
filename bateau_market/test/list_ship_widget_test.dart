@@ -28,7 +28,7 @@ class TestThemeNotifier extends ThemeNotifier {
 }
 
 void main() {
-  testWidgets('ListShipWidget should display mock ships', (WidgetTester tester) async {
+  testWidgets('ListShipWidget should display mock ships from provider override', (WidgetTester tester) async {
     final mockShips = [
       Ship(
         name: 'Titanic Test',
@@ -37,8 +37,8 @@ void main() {
         nbPeopleMax: 100,
         marketPlace: 'Brest',
         price: Decimal.parse('500000'),
-        lat: 0,
-        lng: 0,
+        lat: 48.0,
+        lng: -4.0,
       ),
     ];
 
@@ -49,6 +49,7 @@ void main() {
             ShipsState(ships: mockShips),
           )),
           themeProvider.overrideWith((ref) => TestThemeNotifier()),
+          shipFilterProvider.overrideWith((ref) => ShipFiltersState()),
         ],
         child: const MaterialApp(
           home: ListShipWidget(),
