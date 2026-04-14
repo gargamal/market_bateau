@@ -5,15 +5,16 @@ import 'package:select_bateau/core/utils/constants.dart';
 import 'package:select_bateau/features/ship/presentation/providers/ship_pagination_provider.dart';
 import 'package:select_bateau/features/ship/presentation/widgets/filter_ship_widget.dart';
 import 'package:select_bateau/features/ship/presentation/widgets/ship_widget.dart';
+import 'package:select_bateau/l10n/app_localizations.dart';
 
-class ListShipInfiniteScrollWidget extends ConsumerStatefulWidget {
-  const ListShipInfiniteScrollWidget({super.key});
+class ListShipWidget extends ConsumerStatefulWidget {
+  const ListShipWidget({super.key});
 
   @override
-  ConsumerState<ListShipInfiniteScrollWidget> createState() => _ListShipInfiniteScrollScreen();
+  ConsumerState<ListShipWidget> createState() => _ListShipInfiniteScrollScreen();
 }
 
-class _ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScrollWidget> {
+class _ListShipInfiniteScrollScreen extends ConsumerState<ListShipWidget> {
   bool _onFirstPageIsVisible = false;
   final ScrollController _scrollController = ScrollController();
   final FilterShipWidget _showFilterDialog = FilterShipWidget();
@@ -62,7 +63,7 @@ class _ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScroll
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("My beautiful ships"),
+        title: Text(AppLocalizations.of(context)!.appTitle),
         actions: [
           IconButton(
             icon: Icon(themeMode == ThemeMode.dark ? Icons.light_mode : Icons.dark_mode),
@@ -88,7 +89,7 @@ class _ListShipInfiniteScrollScreen extends ConsumerState<ListShipInfiniteScroll
           },
         ),
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (err, stack) => Center(child: Text('Erreur: $err')),
+        error: (err, stack) => Center(child: Text(AppLocalizations.of(context)!.error(err.toString()))),
       ),
       floatingActionButton: !_onFirstPageIsVisible ? null : FloatingActionButton(
         onPressed: _onFirstPage,

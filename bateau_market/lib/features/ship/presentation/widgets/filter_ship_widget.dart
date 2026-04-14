@@ -5,6 +5,7 @@ import 'package:select_bateau/core/utils/constants.dart';
 import 'package:select_bateau/features/ship/models/city.dart';
 import 'package:select_bateau/features/ship/presentation/providers/city_provider.dart';
 import 'package:select_bateau/features/ship/presentation/providers/ship_fliter_provider.dart';
+import 'package:select_bateau/l10n/app_localizations.dart';
 
 class FilterShipWidget {
   void show(BuildContext context, WidgetRef ref) {
@@ -48,7 +49,7 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
     return AlertDialog(
       title: Center(
         child: Text(
-          "Find your ship",
+          AppLocalizations.of(context)!.findYourShip,
           style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.primary, fontSize: 22),
         ),
       ),
@@ -56,7 +57,7 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
         mainAxisSize: MainAxisSize.min,
         children: [
           // Filtrer par puissance
-          Text("Max Power : ${_localPower!.toInt()}"),
+          Text(AppLocalizations.of(context)!.maxPower(_localPower!.toInt())),
           Slider(
             value: _localPower!,
             max: 10000,
@@ -75,7 +76,7 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
               data: (state) =>
                   DropdownButton<String>(
                       value: _localMarketPlace,
-                      hint: const Text("Choose the city"),
+                      hint: Text(AppLocalizations.of(context)!.chooseTheCity),
                       items: state.cities.map((City value) {
                         return DropdownMenuItem(value: value.name, child: Text(value.name));
                       }).toList(),
@@ -87,7 +88,7 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
                         });
                       }),
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (err, stack) => Center(child: Text('Erreur: $err'))
+              error: (err, stack) => Center(child: Text(AppLocalizations.of(context)!.error(err.toString())))
           )
         ],
       ),
@@ -98,7 +99,7 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
             Navigator.pop(context);
           },
           child: Text(
-            "Reinitialize",
+            AppLocalizations.of(context)!.reinitialize,
             style: TextStyle(fontWeight: FontWeight.bold, color: colorScheme.secondary, fontSize: 14),
           ),
         ),
@@ -108,8 +109,8 @@ class FilterDialogContentState extends ConsumerState<_FilterDialogContent> {
             backgroundColor: colorScheme.primaryContainer,
             foregroundColor: colorScheme.onPrimaryContainer,
           ),
-          child: const Text(
-            "Apply",
+          child: Text(
+            AppLocalizations.of(context)!.apply,
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
           ),
         ),

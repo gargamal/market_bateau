@@ -7,10 +7,10 @@ class ThemeNotifier extends StateNotifier<ThemeMode> {
   static const _key = 'isDarkMode';
 
   ThemeNotifier() : super(ThemeMode.system) {
-    _loadTheme();
+    loadTheme();
   }
 
-  void _loadTheme() {
+  void loadTheme() {
     final box = Hive.box(settingsBoxName);
     final isDark = box.get(_key);
     if (isDark != null) {

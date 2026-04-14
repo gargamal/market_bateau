@@ -28,7 +28,7 @@ class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
 
   @override
   FutureOr<ShipsState> build() async {
-    final filters = ref.watch(shipFilterProvider);
+    final filters = getFilters();
 
     List<Ship> initialShips = [];
     if (_isFilterEmpty(filters)) {
@@ -116,7 +116,7 @@ class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
 
     try {
       final nextPage = currentState.currentPage + 1;
-      final filters = ref.read(shipFilterProvider);
+      final filters = getFilters();
       final newShips = await _fetchShips(page: nextPage, filters: filters);
 
       state = AsyncData(currentState.copyWith(
@@ -128,6 +128,10 @@ class ShipPaginationNotifier extends AsyncNotifier<ShipsState> {
         state = AsyncData(state.value!.copyWith(isLoadingMore: false));
       }
     }
+  }
+
+  ShipFiltersState getFilters() {
+    return ref.watch(shipFilterProvider);
   }
 }
 

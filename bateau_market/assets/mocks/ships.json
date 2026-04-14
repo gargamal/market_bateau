@@ -1,0 +1,112 @@
+[
+  {
+    "name": "Titanic II",
+    "power": 1500,
+    "nbHourOfAutonomy": 48,
+    "nbPeopleMax": 2500,
+    "marketPlace": "Brest",
+    "price": "10000000",
+    "lat": 48.3903,
+    "lng": -4.4861
+  },
+  {
+    "name": "Black Pearl",
+    "power": 0,
+    "nbHourOfAutonomy": 999,
+    "nbPeopleMax": 50,
+    "marketPlace": "Caraïbes",
+    "price": "500000",
+    "lat": 15.0,
+    "lng": -61.0
+  },
+  {
+    "name": "Le France",
+    "power": 2000,
+    "nbHourOfAutonomy": 72,
+    "nbPeopleMax": 1500,
+    "marketPlace": "Le Havre",
+    "price": "25000000",
+    "lat": 49.4943,
+    "lng": 0.1079
+  },
+  {
+    "name": "Queen Mary 2",
+    "power": 1800,
+    "nbHourOfAutonomy": 60,
+    "nbPeopleMax": 2600,
+    "marketPlace": "Southampton",
+    "price": "30000000",
+    "lat": 50.9097,
+    "lng": -1.4044
+  },
+  {
+    "name": "Belem",
+    "power": 100,
+    "nbHourOfAutonomy": 240,
+    "nbPeopleMax": 48,
+    "marketPlace": "Nantes",
+    "price": "2000000",
+    "lat": 47.2184,
+    "lng": -1.5536
+  },
+  {
+    "name": "Calypso",
+    "power": 300,
+    "nbHourOfAutonomy": 120,
+    "nbPeopleMax": 12,
+    "marketPlace": "Monaco",
+    "price": "1200000",
+    "lat": 43.7384,
+    "lng": 7.4246
+  },
+  {
+    "name": "Sirocco",
+    "power": 450,
+    "nbHourOfAutonomy": 15,
+    "nbPeopleMax": 8,
+    "marketPlace": "Saint-Tropez",
+    "price": "850000",
+    "lat": 43.2727,
+    "lng": 6.6394
+  },
+  {
+    "name": "L'Hydroptere",
+    "power": 0,
+    "nbHourOfAutonomy": 10,
+    "nbPeopleMax": 6,
+    "marketPlace": "Marseille",
+    "price": "3500000",
+    "lat": 43.2965,
+    "lng": 5.3698
+  },
+  {
+    "name": "Hermione",
+    "power": 0,
+    "nbHourOfAutonomy": 300,
+    "nbPeopleMax": 80,
+    "marketPlace": "Rochefort",
+    "price": "5000000",
+    "lat": 45.9426,
+    "lng": -0.9657
+  },
+  {
+    "name": "Yacht Horizon",
+    "power": 600,
+    "nbHourOfAutonomy": 30,
+    "nbPeopleMax": 15,
+    "marketPlace": "Cannes",
+    "price": "4200000",
+    "lat": 43.5528,
+    "lng": 7.0174
+  },
+  {
+    "name": "Petit Baigneur",
+    "power": 25,
+    "nbHourOfAutonomy": 6,
+    "nbPeopleMax": 4,
+    "marketPlace": "Port-Grimaud",
+    "price": "12000",
+    "lat": 43.2721,
+    "lng": 6.5794
+  }
+]

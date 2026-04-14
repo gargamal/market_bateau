@@ -1,0 +1,23 @@
+{
+  "appTitle": "My beautiful ships",
+  "error": "Error: {message}",
+  "@error": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "findYourShip": "Find your ship",
+  "chooseTheCity": "Choose the city",
+  "maxPower": "Max Power: {power}",
+  "@maxPower": {
+    "placeholders": {
+      "power": {
+        "type": "int"
+      }
+    }
+  },
+  "reinitialize": "Reinitialize",
+  "apply": "Apply"
+}

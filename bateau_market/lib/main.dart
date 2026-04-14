@@ -8,7 +8,7 @@ import 'package:select_bateau/features/ship/models/city.dart';
 import 'package:select_bateau/features/ship/models/ship.dart';
 import 'package:select_bateau/features/ship/presentation/widgets/list_ship_widget.dart';
 import 'package:select_bateau/hive_registrar.g.dart';
-import 'package:select_bateau/core/theme/theme/app_theme.dart';
+import 'package:select_bateau/core/theme/app_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -36,7 +36,7 @@ class SelectBateau extends ConsumerWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeMode,
-      home: const ListShipInfiniteScrollWidget(),
+      home: const ListShipWidget(),
     );
   }
 }

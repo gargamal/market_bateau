@@ -1,0 +1,9 @@
+{
+  "appTitle": "Mes beaux bateaux",
+  "findYourShip": "Trouvez votre bateau",
+  "maxPower": "Puissance Max : {power}",
+  "chooseTheCity": "Choisissez la ville",
+  "reinitialize": "Réinitialiser",
+  "apply": "Appliquer",
+  "error": "Erreur : {message}"
+}
